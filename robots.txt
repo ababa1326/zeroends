@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ababa1326.github.io/zeroends/sitemap.xml

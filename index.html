@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>0% Intro APR Deadline Calculator — What to Pay Before the Promo Ends | ZeroEnds</title>
+<meta name="description" content="Free calculator: see exactly what to pay each month so your balance hits $0 before your 0% intro APR ends — and what the cliff costs if you miss it." />
+<link rel="canonical" href="https://ababa1326.github.io/zeroends/" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<meta name="theme-color" content="#4a3b8a" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="ZeroEnds" />
+<meta property="og:url" content="https://ababa1326.github.io/zeroends/" />
+<meta property="og:title" content="0% Intro APR Deadline Calculator — What to Pay Before the Promo Ends" />
+<meta property="og:description" content="Free calculator: see exactly what to pay each month so your balance hits $0 before your 0% intro APR ends — and what the cliff costs if you miss it." />
+<meta property="og:image" content="https://ababa1326.github.io/zeroends/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="0% Intro APR Deadline Calculator — What to Pay Before the Promo Ends" />
+<meta name="twitter:description" content="See exactly what to pay each month so your balance hits $0 before your 0% intro APR ends." />
+<meta name="twitter:image" content="https://ababa1326.github.io/zeroends/og.png" />
+<style>
+  :root {
+    --ink: #14110f;
+    --paper: #faf7f2;
+    --line: #e6ddd0;
+    --muted: #8a7f72;
+    --accent: #4a3b8a;
+    --accent-soft: #e9e5f4;
+    --warn: #c4622d;
+    --warn-soft: #f6e6db;
+    --danger: #b13636;
+    --shadow: 0 1px 0 rgba(20,17,15,0.04), 0 12px 40px -20px rgba(20,17,15,0.25);
+    --mono: "SF Mono", "Roboto Mono", ui-monospace, "Cascadia Code", Menlo, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 22px; }
+
+  header.top {
+    border-bottom: 1px solid var(--line);
+    padding: 18px 0;
+  }
+  .brand {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+  .brand b { color: var(--ink); font-weight: 600; }
+  .brand .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); display: inline-block; }
+
+  .hero { padding: 58px 0 34px; }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 18px;
+  }
+  h1 {
+    font-size: clamp(30px, 6vw, 46px);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    font-weight: 680;
+    margin-bottom: 18px;
+  }
+  h1 .quiet { color: var(--muted); font-weight: 680; }
+  .lede {
+    font-size: 18px;
+    color: #4a443c;
+    max-width: 52ch;
+  }
+
+  .calc {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin: 8px 0 14px;
+  }
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .field {
+    padding: 20px;
+    border-bottom: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+  }
+  .field:nth-child(even) { border-right: none; }
+  .field.full { grid-column: 1 / -1; border-right: none; }
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    margin-bottom: 9px;
+  }
+  .field .hint, .target-row .hint { color: var(--muted); font-weight: 400; }
+  .input-mono {
+    width: 100%;
+    font-family: var(--mono);
+    font-size: 19px;
+    border: none;
+    background: transparent;
+    color: var(--ink);
+    outline: none;
+    padding: 0;
+  }
+  .input-mono::placeholder { color: #cabfae; }
+  .input-wrap { display: flex; align-items: baseline; gap: 6px; }
+  .input-wrap .pre, .input-wrap .post { font-family: var(--mono); font-size: 19px; color: var(--muted); }
+  input[type="date"].input-mono { font-size: 16px; }
+  .date-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 16px;
+  }
+  .date-pair > div { min-width: 0; }
+  .date-pair label { min-height: 39px; }
+
+  .target-row {
+    grid-column: 1 / -1;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+  .target-row label { font-size: 13px; font-weight: 600; display: block; margin-bottom: 9px; }
+  .seg { display: flex; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; }
+  .seg button {
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 7px 13px;
+    background: #fff;
+    border: none;
+    border-right: 1px solid var(--line);
+    cursor: pointer;
+    color: var(--muted);
+  }
+  .seg button:last-child { border-right: none; }
+  .seg button.on { background: var(--accent); color: #fff; }
+  .check-label {
+    display: flex !important;
+    gap: 10px;
+    align-items: flex-start;
+    cursor: pointer;
+    margin: 0 !important;
+  }
+  .check-label input { accent-color: var(--accent); margin-top: 3px; width: 16px; height: 16px; flex: 0 0 auto; }
+
+  .result {
+    border-top: 2px solid var(--ink);
+    padding: 26px 22px;
+    background: var(--accent-soft);
+  }
+  .result.over { background: var(--warn-soft); }
+  .result.empty { background: #f3efe7; }
+  .result-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .result-main {
+    font-size: clamp(22px, 5vw, 30px);
+    letter-spacing: -0.01em;
+    line-height: 1.18;
+    font-weight: 640;
+  }
+  .result-main .amt { color: var(--accent); }
+  .result.over .result-main .amt { color: var(--warn); }
+  .result-sub { margin-top: 12px; font-size: 15px; color: #4a443c; }
+  .result-sub b { font-weight: 640; }
+  .est-note { margin-top: 12px; font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .est-note b { color: var(--accent); font-weight: 640; }
+  .ics-btn {
+    display: inline-block; margin-top: 16px; padding: 9px 14px;
+    font-family: var(--mono); font-size: 13px; color: var(--accent);
+    background: #fff; border: 1px solid var(--accent); border-radius: 9px;
+    cursor: pointer; text-decoration: none;
+  }
+  .ics-btn:hover { background: var(--accent); color: #fff; }
+  .ics-hint { display: block; margin-top: 6px; font-size: 12px; color: var(--muted); }
+  .cliff-note {
+    margin-top: 16px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: rgba(177, 54, 54, 0.09);
+    color: var(--danger);
+    font-size: 13px;
+  }
+
+  .bar-block { margin-top: 20px; }
+  .bar-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 7px; }
+  .bar-top .u-now { font-family: var(--mono); font-size: 14px; font-weight: 600; }
+  .bar-top .u-cap { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .bar {
+    height: 12px;
+    border-radius: 7px;
+    background: #ded5c7;
+    position: relative;
+    overflow: visible;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 7px;
+    background: var(--accent);
+    transition: width 0.5s cubic-bezier(.4,0,.2,1), background 0.3s;
+    width: 0%;
+  }
+  .bar-fill.warn { background: var(--warn); }
+  .bar-fill.danger { background: var(--danger); }
+  .bar-target {
+    position: absolute; top: -3px; bottom: -3px; width: 2px;
+    background: var(--ink); right: 0;
+  }
+  .bar-target::after {
+    content: attr(data-label);
+    position: absolute; top: -17px; right: 0;
+    font-family: var(--mono); font-size: 10px; color: var(--ink); white-space: nowrap;
+  }
+
+  main.prose { padding: 18px 0 70px; }
+  .prose h2 {
+    font-size: 24px;
+    letter-spacing: -0.01em;
+    margin: 44px 0 14px;
+    font-weight: 660;
+  }
+  .prose h2 .num {
+    font-family: var(--mono); font-size: 13px; color: var(--accent);
+    margin-right: 10px; vertical-align: 2px;
+  }
+  .prose p { margin-bottom: 14px; color: #383229; font-size: 16.5px; }
+  .prose p .k { font-weight: 640; color: var(--ink); }
+  .prose a { color: var(--accent); font-weight: 640; }
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: #fff;
+    border-radius: 0 10px 10px 0;
+    padding: 16px 18px;
+    margin: 18px 0;
+    font-size: 15.5px;
+    box-shadow: var(--shadow);
+  }
+  .callout .tag {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 6px;
+  }
+
+  .timeline {
+    margin: 22px 0 8px;
+    padding: 22px 20px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+  }
+  .tl-track { position: relative; height: 3px; background: var(--line); margin: 30px 4px 70px; }
+  .tl-fill { position: absolute; height: 3px; background: var(--accent); left: 0; width: 0%; }
+  .tl-node { position: absolute; top: -6px; width: 15px; height: 15px; border-radius: 50%; background: #fff; border: 3px solid var(--accent); transform: translateX(-50%); }
+  .tl-node.warning { border-color: var(--muted); }
+  .tl-node.today { top: -3px; width: 9px; height: 9px; border: none; background: var(--ink); }
+  .tl-lab { position: absolute; bottom: -64px; font-size: 11px; width: 150px; }
+  .tl-lab .d { font-family: var(--mono); font-size: 11px; font-weight: 600; display: block; margin-bottom: 3px; }
+  .tl-lab .t { color: var(--muted); display: block; line-height: 1.3; }
+  .tl-lab.at-start { left: 0; text-align: left; }
+  .tl-lab.at-mid { transform: translateX(-50%); text-align: center; }
+  .tl-lab.at-end { right: 0; text-align: right; }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 26px 0 40px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  footer p { margin-bottom: 8px; }
+  footer .disc { font-size: 12px; line-height: 1.6; }
+
+  @media (max-width: 560px) {
+    .calc-grid, .date-pair, .target-row { grid-template-columns: 1fr; }
+    .field { border-right: none; }
+    .date-pair { gap: 18px; }
+    .date-pair label { min-height: 0; }
+    .hero { padding: 40px 0 26px; }
+  }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "ZeroEnds",
+      "url": "https://ababa1326.github.io/zeroends/",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web",
+      "description": "Free calculator that shows what to pay monthly so a credit card balance reaches zero before a 0% intro APR ends.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What happens when my 0% intro APR ends?",
+          "acceptedAnswer": { "@type": "Answer", "text": "On a true intro-APR offer, the remaining balance starts accruing at the card's regular APR from that day forward. Nothing retroactive happens, but a typical 25% to 30% APR can make the leftover balance expensive quickly." }
+        },
+        {
+          "@type": "Question",
+          "name": "What is deferred interest?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Deferred-interest financing lets interest accrue silently from day one. If any balance remains when the period ends, the accrued interest calculated on the original purchase can land on your statement at once." }
+        },
+        {
+          "@type": "Question",
+          "name": "How much should I pay monthly during a 0% intro APR?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Divide what you owe by the months left before the promo deadline. Set that fixed amount as your payment so the balance reaches zero before the regular APR begins." }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I do a balance transfer before my 0% APR ends?",
+          "acceptedAnswer": { "@type": "Answer", "text": "A new 0% balance-transfer offer can be cheaper than letting a balance begin accruing at a high regular APR, even with a typical 3% to 5% fee. It only helps if you pay the balance down during the new promotional window." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <div class="brand"><span class="dot"></span> Zero<b>Ends</b></div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <section class="hero">
+      <div class="eyebrow">Promo deadline · not a suggestion</div>
+      <h1>Your 0% APR has an expiration date. <span class="quiet">The balance left that day is what gets expensive.</span></h1>
+      <p class="lede">When the intro period ends, the leftover balance starts accruing at your card's real APR — often 25–30%. Enter your numbers to see exactly what to pay each month so there's nothing left when the clock runs out.</p>
+    </section>
+  </div>
+
+  <div class="wrap">
+    <div id="app"></div>
+  </div>
+
+  <div class="wrap">
+    <main class="prose">
+      <h2><span class="num">01</span>What actually happens when a 0% intro APR ends</h2>
+      <p>On a true intro-APR offer, nothing retroactive happens — the remaining balance simply starts accruing at the card's regular APR from that day forward, typically somewhere between 25% and 30% in 2026. The trap isn't a penalty; it's arithmetic. Carrying $4,000 past the cliff at 29% costs roughly $97 a month in interest you weren't paying the day before.</p>
+      <p>The fix is equally arithmetic: divide what you owe by the months you have left. That's the whole strategy. The calculator above does it with your real dates and shows whether your current payment actually gets there.</p>
+
+      <h2><span class="num">02</span>Deferred interest is a different animal entirely</h2>
+      <div class="callout">
+        <span class="tag">"No interest if paid in full" ≠ 0% APR</span>
+        Store-card financing usually isn't a true 0% APR — it's <b>deferred</b> interest. The interest accrues silently from day one, and if any balance at all remains when the period ends, the entire accrued amount — calculated on your original purchase, not the leftover — lands on your statement at once. Paying 99% of it off isn't 99% safe; it's 0% safe.
+      </div>
+      <p>if your financing came from a furniture store, jeweler, electronics retailer, or medical provider, assume deferred interest until the paperwork proves otherwise, and aim to finish a full month early.</p>
+
+      <h2><span class="num">03</span>The payment math, and why autopay misses it</h2>
+      <p>Card minimum payments are calculated to keep you borrowing, not to land you at $0 by your promo deadline — a $4,000 balance with a 2% minimum pays down barely half of it in 15 months. Set your own fixed payment (balance ÷ months left) as an autopay amount, and put the end date itself on your calendar — the reminder button above does it in one click.</p>
+
+      <h2><span class="num">04</span>If the math says you won't make it</h2>
+      <p>Be straight: you have three levers. Raise the monthly payment; move the remaining balance to a new 0% balance-transfer offer before the deadline (typically costs a 3–5% transfer fee — cheaper than 29% APR, but only if you actually pay it down during the new window); or, worst case, prioritize this balance over everything except minimums elsewhere once the rate jumps, because it's almost certainly your most expensive debt from that day on.</p>
+      <p>Working on your credit score too? A reported balance is photographed on your statement closing date — <a href="https://ababa1326.github.io/reportslow/">ReportsLow</a> tells you what to pay before the snapshot.</p>
+    </main>
+  </div>
+
+  <footer>
+    <div class="wrap">
+      <p style="font-weight:600;color:var(--ink);">ZeroEnds — a free tool, nothing to install.</p>
+      <p class="disc">This is an educational tool, not financial advice. Estimates assume a true 0% intro APR with no new purchases or fees. Confirm your promo end date and APR on your card agreement or statement. Deferred-interest terms vary by lender.</p>
+    </div>
+  </footer>
+
+<script>
+(function () {
+  function fmt(n) {
+    if (n === null || n === undefined || isNaN(n)) return "\u2014";
+    return "$" + Math.round(n).toLocaleString("en-US");
+  }
+  function withCommas(raw) {
+    if (raw === "" || raw === null) return "";
+    var parts = raw.split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  }
+  function todayLocal() {
+    var d = new Date();
+    d.setHours(0,0,0,0);
+    return d;
+  }
+  function parseLocalDate(iso) {
+    return iso ? new Date(iso + "T00:00:00") : null;
+  }
+  function fmtDate(d) {
+    return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  }
+  function addMonthsClamped(date, months) {
+    var day = date.getDate();
+    var target = new Date(date.getFullYear(), date.getMonth() + months, 1);
+    var lastDay = new Date(target.getFullYear(), target.getMonth() + 1, 0).getDate();
+    target.setDate(Math.min(day, lastDay));
+    return target;
+  }
+  function pad2(n) {
+    return (n < 10 ? "0" : "") + n;
+  }
+  function icsDate(d) {
+    return d.getFullYear() + pad2(d.getMonth() + 1) + pad2(d.getDate());
+  }
+
+  var state = {
+    balance: "",
+    payment: "",
+    dateMode: "end",
+    endDate: "",
+    startDate: "",
+    promoMonths: "15",
+    apr: "29.99",
+    deferred: false
+  };
+  var app = document.getElementById("app");
+
+  app.innerHTML = ''
+    + '<div class="calc">'
+    +   '<div class="calc-grid">'
+    +     '<div class="field">'
+    +       '<label for="f-balance">Current balance</label>'
+    +       '<div class="input-wrap"><span class="pre">$</span>'
+    +         '<input id="f-balance" class="input-mono" inputmode="decimal" placeholder="4,000" autocomplete="off"></div>'
+    +     '</div>'
+    +     '<div class="field">'
+    +       '<label for="f-payment">Monthly payment now <span class="hint">— optional, to check your pace</span></label>'
+    +       '<div class="input-wrap"><span class="pre">$</span>'
+    +         '<input id="f-payment" class="input-mono" inputmode="decimal" placeholder="250" autocomplete="off"></div>'
+    +     '</div>'
+    +     '<div class="field full">'
+    +       '<label>Which do you know?</label>'
+    +       '<div class="seg" id="f-datemode" role="radiogroup" aria-label="Which promo date do you know" style="display:inline-flex">'
+    +         '<button data-m="end" class="on" role="radio" aria-checked="true" type="button">End date</button>'
+    +         '<button data-m="start" role="radio" aria-checked="false" type="button">Start + length</button>'
+    +       '</div>'
+    +       '<div id="f-date-fields"></div>'
+    +     '</div>'
+    +     '<div class="target-row">'
+    +       '<div>'
+    +         '<label for="f-apr">Post-promo APR % <span class="hint">— on your statement; 25–30% is typical</span></label>'
+    +         '<div class="input-wrap">'
+    +           '<input id="f-apr" type="number" min="0" max="60" step="0.01" value="29.99" class="input-mono">'
+    +           '<span class="post">%</span>'
+    +         '</div>'
+    +       '</div>'
+    +       '<div>'
+    +         '<label class="check-label" for="f-deferred">'
+    +           '<input id="f-deferred" type="checkbox">'
+    +           '<span>Deferred interest ("no interest if paid in full") <span class="hint">— common on store cards</span></span>'
+    +         '</label>'
+    +       '</div>'
+    +     '</div>'
+    +   '</div>'
+    +   '<div class="result empty" id="f-result" role="status" aria-live="polite"></div>'
+    + '</div>'
+    + '<div class="timeline">'
+    +   '<div class="tl-track" id="f-timeline"></div>'
+    + '</div>';
+
+  var resultEl = document.getElementById("f-result");
+  var timelineEl = document.getElementById("f-timeline");
+  var dateFieldsEl = document.getElementById("f-date-fields");
+
+  function promoDates() {
+    if (state.dateMode === "end") {
+      var enteredEnd = parseLocalDate(state.endDate);
+      return enteredEnd ? { start: null, end: enteredEnd } : null;
+    }
+    var start = parseLocalDate(state.startDate);
+    var length = parseInt(state.promoMonths, 10);
+    if (!start || !length || length < 1 || length > 48) return null;
+    return { start: start, end: addMonthsClamped(start, length) };
+  }
+
+  function renderDateFields() {
+    if (state.dateMode === "end") {
+      dateFieldsEl.innerHTML = '<div style="margin-top:16px">'
+        + '<label for="f-end-date">Promo end date <span class="hint">— when the 0% rate expires</span></label>'
+        + '<input id="f-end-date" type="date" class="input-mono">'
+        + '</div>';
+      document.getElementById("f-end-date").addEventListener("input", function (e) {
+        state.endDate = e.target.value;
+        render();
+      });
+    } else {
+      dateFieldsEl.innerHTML = '<div class="date-pair">'
+        + '<div><label for="f-start-date">Account opening date</label>'
+        + '<input id="f-start-date" type="date" class="input-mono"></div>'
+        + '<div><label for="f-promo-months">Promo length (months)</label>'
+        + '<input id="f-promo-months" type="number" min="1" max="48" step="1" value="15" class="input-mono"></div>'
+        + '</div>';
+      document.getElementById("f-start-date").addEventListener("input", function (e) {
+        state.startDate = e.target.value;
+        render();
+      });
+      document.getElementById("f-promo-months").addEventListener("input", function (e) {
+        state.promoMonths = e.target.value;
+        render();
+      });
+    }
+  }
+
+  function downloadReminderICS(end) {
+    var remind = new Date(end.getTime() - 30 * 86400000);
+    var stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+    var lines = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//ZeroEnds//APR Deadline Reminder//EN",
+      "BEGIN:VEVENT",
+      "UID:zeroends-" + Date.now() + "@zeroends",
+      "DTSTAMP:" + stamp,
+      "DTSTART;VALUE=DATE:" + icsDate(remind),
+      "SUMMARY:0% APR ends in 30 days \u2014 check your payoff",
+      "DESCRIPTION:Check your payoff pace before the 0% APR deadline. Free calculator: https://ababa1326.github.io/zeroends/",
+      "END:VEVENT",
+      "END:VCALENDAR"
+    ];
+    var blob = new Blob([lines.join("\r\n") + "\r\n"], { type: "text/calendar" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "zero-apr-30-day-warning.ics";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  }
+
+  function renderTimeline() {
+    var dates = promoDates();
+    var apr = parseFloat(state.apr);
+    var aprLabel = isNaN(apr) ? "your regular APR" : apr.toFixed(2).replace(/\.?0+$/, "") + "%";
+    if (!dates) {
+      timelineEl.innerHTML = '<div class="tl-fill"></div>'
+        + '<div class="tl-node today" style="left:0%"></div>'
+        + '<div class="tl-node" style="left:100%"></div>'
+        + '<div class="tl-lab at-start"><span class="d">Today</span><span class="t">enter the promo date above</span></div>'
+        + '<div class="tl-lab at-end"><span class="d">Promo end</span><span class="t">balance left here starts costing ' + aprLabel + '</span></div>';
+      return;
+    }
+
+    var today = todayLocal();
+    var days = Math.round((dates.end - today) / 86400000);
+    var showWarning = days > 30;
+    var warningPos = showWarning ? Math.max(0, Math.min(100, (days - 30) / days * 100)) : 0;
+    var fill = 0;
+    if (dates.start && dates.end > dates.start) {
+      fill = Math.max(0, Math.min(100, (today - dates.start) / (dates.end - dates.start) * 100));
+    }
+
+    var html = '<div class="tl-fill" style="width:' + fill + '%"></div>'
+      + '<div class="tl-node today" style="left:0%"></div>'
+      + '<div class="tl-node" style="left:100%"></div>'
+      + '<div class="tl-lab at-start"><span class="d">Today</span><span class="t">' + fmtDate(today) + '</span></div>'
+      + '<div class="tl-lab at-end"><span class="d">' + fmtDate(dates.end) + '</span><span class="t">balance left here starts costing ' + aprLabel + '</span></div>';
+    if (showWarning) {
+      html += '<div class="tl-node warning" style="left:' + warningPos + '%"></div>'
+        + '<div class="tl-lab at-mid" style="left:' + warningPos + '%"><span class="d">30-day warning</span><span class="t">' + fmtDate(new Date(dates.end.getTime() - 30 * 86400000)) + '</span></div>';
+    }
+    timelineEl.innerHTML = html;
+  }
+
+  function render() {
+    renderTimeline();
+    var balance = parseFloat(state.balance) || 0;
+    var payment = state.payment === "" ? null : parseFloat(state.payment);
+    if (payment !== null && isNaN(payment)) payment = null;
+    var apr = parseFloat(state.apr);
+    if (isNaN(apr)) apr = 0;
+    var dates = promoDates();
+
+    if (balance <= 0 || !dates) {
+      resultEl.className = "result empty";
+      resultEl.innerHTML = '<div class="result-label">Waiting on your numbers</div>'
+        + '<div class="result-main">Enter your balance and promo end date to see your number.</div>';
+      return;
+    }
+
+    var today = todayLocal();
+    var days = Math.round((dates.end - today) / 86400000);
+    if (days < 0) {
+      resultEl.className = "result over";
+      resultEl.innerHTML = '<div class="result-label">The promo has ended</div>'
+        + '<div class="result-main">Your balance is now accruing at <b>' + apr.toFixed(2).replace(/\.?0+$/, "") + '%</b>.</div>'
+        + '<div class="result-sub">Every month from here adds roughly ' + fmt(balance * apr / 1200) + ' in interest. The fastest exit is still the same math: pay ' + fmt(balance / 12) + ' a month and you\'re out in a year — or consider a balance transfer (see below).</div>';
+      return;
+    }
+
+    var monthsLeft = Math.max(1, Math.floor(days / 30.44));
+    var required = balance / monthsLeft;
+    var html = "";
+    var resultClass = "result";
+
+    if (payment === null) {
+      html += '<div class="result-label">Pay this much monthly</div>'
+        + '<div class="result-main">Pay <span class="amt">' + fmt(required) + '</span> a month to hit $0 before ' + fmtDate(dates.end) + ' — <b>' + days + ' days</b> from now.</div>'
+        + '<div class="result-sub">' + monthsLeft + ' payment' + (monthsLeft === 1 ? '' : 's') + ' left. A true 0% promo charges nothing meanwhile — the entire game is finishing before the date.</div>';
+    } else if (payment >= required) {
+      var payoffMonths = Math.ceil(balance / Math.max(payment, 0.01));
+      var payoffDate = new Date(today.getTime() + payoffMonths * 30.44 * 86400000);
+      html += '<div class="result-label">You\'re on pace</div>'
+        + '<div class="result-main">At ' + fmt(payment) + '/month you clear the balance about ' + fmtDate(payoffDate) + ' — before the ' + fmtDate(dates.end) + ' deadline.</div>'
+        + '<div class="result-sub">Keep that payment fixed and avoid adding new purchases or fees. You have enough pace to reach $0 before the regular APR begins.</div>';
+    } else {
+      var paidByEnd = payment * monthsLeft;
+      var leftover = Math.max(0, balance - paidByEnd);
+      var cliffCost = leftover * apr / 100;
+      resultClass += " over";
+      html += '<div class="result-label">You won\'t make it at this pace</div>'
+        + '<div class="result-main">At ' + fmt(payment) + '/month you\'ll still owe <span class="amt">' + fmt(leftover) + '</span> when the promo ends ' + fmtDate(dates.end) + '.</div>'
+        + '<div class="result-sub">That leftover starts accruing at ' + apr.toFixed(2).replace(/\.?0+$/, "") + '% — roughly <b>' + fmt(cliffCost) + '</b> in interest over the following year. Closing the gap takes <b>' + fmt(required) + '</b>/month from today.</div>'
+        + '<div class="est-note">≈ first-year interest if the leftover just sits there</div>';
+      if (state.deferred && leftover > 0) {
+        html += '<div class="cliff-note">⚠ Deferred-interest financing charges interest retroactively on the ENTIRE original purchase from day one if ANY balance remains at the deadline — even $1 left can trigger hundreds in back-interest. With this financing, paying to exactly $0 before the date is the only safe play.</div>';
+      }
+    }
+
+    if (payment !== null) {
+      var pace = required > 0 ? payment / required * 100 : 100;
+      var barClass = pace >= 100 ? "" : (pace >= 60 ? "warn" : "danger");
+      html += '<div class="bar-block">'
+        + '<div class="bar-top"><span class="u-now">' + pace.toFixed(0) + '% of needed pace</span>'
+        + '<span class="u-cap">' + fmt(payment) + ' of ' + fmt(required) + '/mo</span></div>'
+        + '<div class="bar"><div class="bar-fill ' + barClass + '" style="width:' + Math.min(100, pace) + '%"></div>'
+        + '<div class="bar-target" data-label="needed"></div></div>'
+        + '</div>';
+    }
+
+    if (days > 30) {
+      html += '<button class="ics-btn" id="f-ics" type="button">📅 Download a 30-day warning reminder</button>'
+        + '<span class="ics-hint">Drops a one-time event in Google/Apple/Outlook calendars. Nothing leaves your browser.</span>';
+    }
+
+    resultEl.className = resultClass;
+    resultEl.innerHTML = html;
+  }
+
+  document.getElementById("f-balance").addEventListener("input", function (e) {
+    state.balance = e.target.value.replace(/[^0-9.]/g, "");
+    e.target.value = withCommas(state.balance);
+    render();
+  });
+  document.getElementById("f-payment").addEventListener("input", function (e) {
+    state.payment = e.target.value.replace(/[^0-9.]/g, "");
+    e.target.value = withCommas(state.payment);
+    render();
+  });
+  document.getElementById("f-apr").addEventListener("input", function (e) {
+    state.apr = e.target.value;
+    render();
+  });
+  document.getElementById("f-deferred").addEventListener("change", function (e) {
+    state.deferred = e.target.checked;
+    render();
+  });
+  document.getElementById("f-datemode").addEventListener("click", function (e) {
+    var btn = e.target.closest("button");
+    if (!btn) return;
+    state.dateMode = btn.getAttribute("data-m");
+    state.endDate = "";
+    state.startDate = "";
+    var btns = this.querySelectorAll("button");
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].classList.remove("on");
+      btns[i].setAttribute("aria-checked", "false");
+    }
+    btn.classList.add("on");
+    btn.setAttribute("aria-checked", "true");
+    renderDateFields();
+    render();
+  });
+  resultEl.addEventListener("click", function (e) {
+    var btn = e.target.closest("#f-ics");
+    if (!btn) return;
+    var dates = promoDates();
+    if (dates) downloadReminderICS(dates.end);
+  });
+
+  renderDateFields();
+  render();
+})();
+</script>
+</body>
+</html>
